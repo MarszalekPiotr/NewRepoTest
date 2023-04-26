@@ -75,6 +75,13 @@ namespace TikTakToe
                         Console.WriteLine("Niestety Potężne AI wygrało \n");
                         break;
                     }
+                    else if(!CheckComputerWin() && !CheckUserWin() && FullBoard())
+                    {    Console.Clear();
+                        DrawBoard();
+                        Console.WriteLine("remis :D");
+                        break;
+
+                    }
                     Console.Clear();
                     DrawBoard();
                     //pętla wyboru przez użytkownika
@@ -214,9 +221,13 @@ namespace TikTakToe
                         break;
 
                     }
-                    else
+                    else if (!CheckComputerWin() && !CheckUserWin() && FullBoard())
                     {
-                        Console.WriteLine("dzialam");
+                        Console.Clear();
+                        DrawBoard();
+                        Console.WriteLine("remis :D");
+                        break;
+
                     }
 
                     ComputerMove();
@@ -226,11 +237,15 @@ namespace TikTakToe
                         Console.Clear();
                         DrawBoard();
                         Console.WriteLine("Niestety Potężne AI wygrało \n");
+                        
                         break;
                     }
+                    
                     Console.Clear();
                     DrawBoard();
 
+                    
+                   
 
 
 
@@ -242,6 +257,21 @@ namespace TikTakToe
 
 
 
+        }
+
+        private bool FullBoard()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if (!(board[i, j] == userMark || board[i, j] == computerMark))
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
 
         private void ComputerMove()
@@ -259,11 +289,18 @@ namespace TikTakToe
                 }
             }
 
-            Random random = new Random();
-            int indexTmp = random.Next(available.Count);
-            Tuple<int,int> randomChoice = available[indexTmp];
-            board[randomChoice.Item1, randomChoice.Item2] = computerMark;
+            if(available.Count > 0) 
+            {
+                Random random = new Random();
+                int indexTmp = random.Next(available.Count);
 
+
+                Tuple<int, int> randomChoice = available[indexTmp];
+                board[randomChoice.Item1, randomChoice.Item2] = computerMark;
+            }
+            
+            
+            
         }
 
         private bool CheckUserWin()
